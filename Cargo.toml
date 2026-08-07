@@ -1,0 +1,24 @@
+[package]
+name = "agentflow"
+version = "0.1.0"
+edition = "2024"
+description = "AgentOps for Rust: orchestrate (graphflow-stream), guard (guardflow), validate (schemaflow), evaluate (evalflow) in one crate"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/thaicn1712/agentflow"
+keywords = ["llm", "agent", "agentops", "llmops", "ai"]
+categories = ["asynchronous", "development-tools"]
+
+[lib]
+path = "agentflow/lib.rs"
+
+[dependencies]
+async-trait = "0.1"
+graph-flow = "0.6"
+graphflow-stream = "0.2"
+guardflow = "0.2"
+schemaflow = "0.1"
+evalflow = "0.1"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
