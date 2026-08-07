@@ -1,9 +1,9 @@
 # agentflow
 
-[![crates.io](https://img.shields.io/crates/v/agentflow.svg?style=flat)](https://crates.io/crates/agentflow)
-[![docs.rs](https://docs.rs/agentflow/badge.svg?style=flat)](https://docs.rs/agentflow)
+[![crates.io](https://img.shields.io/crates/v/agentflow.svg?style=flat&_=2)](https://crates.io/crates/agentflow)
+[![docs.rs](https://docs.rs/agentflow/badge.svg?style=flat&_=2)](https://docs.rs/agentflow)
 [![CI](https://github.com/thaicn1712/agentflow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thaicn1712/agentflow/actions/workflows/ci.yml)
-[![license](https://img.shields.io/crates/l/agentflow.svg?style=flat)](LICENSE)
+[![license](https://img.shields.io/crates/l/agentflow.svg?style=flat&_=2)](LICENSE)
 
 ![AgentOps for Rust: orchestrate with graphflow-stream, guard with guardflow, validate with schemaflow, evaluate with evalflow](docs/hero.png)
 
