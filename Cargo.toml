@@ -1,8 +1,8 @@
 [package]
 name = "agentflow"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
-description = "AgentOps for Rust: orchestrate (graphflow-stream), guard (guardflow), validate (schemaflow), evaluate (evalflow) in one crate"
+description = "AgentOps for Rust: orchestrate, guard, act-guard, validate, evaluate — in one crate"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/thaicn1712/agentflow"
@@ -19,6 +19,8 @@ graphflow-stream = "0.2"
 guardflow = "0.2"
 schemaflow = "0.1"
 evalflow = "0.1"
+actionguard = "0.1"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full"] }
+serde_json = "1"

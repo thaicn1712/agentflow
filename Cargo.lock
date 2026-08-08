@@ -3,6 +3,17 @@
 version = 4
 
 [[package]]
+name = "actionguard"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f241f10f8f6def65ec1c4697f47f2477e4481d1de0abc1e05c127ac000fafb3f"
+dependencies = [
+ "async-trait",
+ "regex",
+ "serde_json",
+]
+
+[[package]]
 name = "adler2"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -10,14 +21,16 @@ checksum = "320119579fcad9c21884f5c4861d16174d0e06250625266f50fe6898340abefa"
 
 [[package]]
 name = "agentflow"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
+ "actionguard",
  "async-trait",
  "evalflow",
  "graph-flow",
  "graphflow-stream",
  "guardflow",
  "schemaflow",
+ "serde_json",
  "tokio",
 ]
 

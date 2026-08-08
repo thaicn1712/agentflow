@@ -101,3 +101,19 @@ async fn without_a_guard_the_task_runs_once_and_is_still_scored() {
     assert_eq!(result.response, Some("hello".to_string()));
     assert!(context.get::<f64>("eval::f1_score").is_some());
 }
+
+#[test]
+fn act_guard_reexport_is_wired_up_and_fails_closed() {
+    use agentflow::act_guard::policies::AllowList;
+    use agentflow::act_guard::{Decision, PolicySet, ToolCall};
+
+    let policies = PolicySet::new().with(AllowList::new(["read_file"]));
+    assert_eq!(
+        policies.check(&ToolCall::new("read_file", serde_json::json!({}))),
+        Decision::Allow
+    );
+    assert!(matches!(
+        policies.check(&ToolCall::new("shell_exec", serde_json::json!({}))),
+        Decision::Deny(_)
+    ));
+}
