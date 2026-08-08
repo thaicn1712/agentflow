@@ -5,7 +5,7 @@
 [![CI](https://github.com/thaicn1712/agentflow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thaicn1712/agentflow/actions/workflows/ci.yml)
 [![license](https://img.shields.io/crates/l/agentflow.svg?style=flat&_=2)](LICENSE)
 
-![AgentOps for Rust: orchestrate with graphflow-stream, guard with guardflow, validate with schemaflow, evaluate with evalflow](docs/hero.png)
+![AgentOps for Rust: orchestrate with graphflow-stream, guard with guardflow, act-guard with actionguard, validate with schemaflow, evaluate with evalflow](docs/hero.png)
 
 DevOps automates software delivery. MLOps adds data and model lifecycle. LLMOps adds prompts, grounding, and hallucination control. **AgentOps** is the next layer down: running autonomous agent graphs in production needs the same discipline — orchestration, guardrails, data validation, evaluation — applied to *agents*, not just models.
 
