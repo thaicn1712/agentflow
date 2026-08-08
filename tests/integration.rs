@@ -117,3 +117,104 @@ fn act_guard_reexport_is_wired_up_and_fails_closed() {
         Decision::Deny(_)
     ));
 }
+
+#[tokio::test]
+async fn rollback_trace_and_cache_reexports_stack_around_one_task() {
+    use agentflow::{cache, rollback, trace};
+    use std::sync::Arc;
+    use std::sync::atomic::{AtomicUsize, Ordering};
+
+    struct Echo {
+        calls: Arc<AtomicUsize>,
+    }
+
+    #[async_trait]
+    impl Task for Echo {
+        fn id(&self) -> &str {
+            "echo"
+        }
+
+        async fn run(&self, context: Context) -> Result<TaskResult> {
+            self.calls.fetch_add(1, Ordering::SeqCst);
+            let prompt: String = context.get("prompt").unwrap_or_default();
+            trace::report_usage(10, 5, 0.001).await;
+            Ok(TaskResult::new(Some(prompt), NextAction::Continue))
+        }
+    }
+
+    let calls = Arc::new(AtomicUsize::new(0));
+    let tracer = Arc::new(trace::InMemoryTracer::default());
+    let checkpoint_store: Arc<dyn rollback::CheckpointStore> =
+        Arc::new(rollback::InMemoryCheckpointStore::default());
+
+    let task = rollback::CheckpointedTask::new(
+        trace::TracedTask::new(
+            cache::CachedTask::new(
+                Echo {
+                    calls: calls.clone(),
+                },
+                cache::InMemoryCache::default(),
+                |ctx: &Context| ctx.get::<String>("prompt").unwrap_or_default(),
+            ),
+            tracer.clone(),
+        ),
+        checkpoint_store,
+        "session-x",
+    );
+
+    let context = Context::new();
+    context.set("prompt", "hi").unwrap();
+
+    task.run(context.clone()).await.unwrap();
+    task.run(context).await.unwrap();
+
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    assert!((tracer.total_cost_usd() - 0.001).abs() < 1e-9);
+}
+
+#[tokio::test]
+async fn memory_reexport_injects_retrieved_memories() {
+    use agentflow::memory;
+    use std::sync::Arc;
+
+    struct WordCountEmbedder;
+
+    #[async_trait]
+    impl memory::Embedder for WordCountEmbedder {
+        async fn embed(&self, text: &str) -> Vec<f32> {
+            vec![text.split_whitespace().count() as f32, text.len() as f32]
+        }
+    }
+
+    struct Echo;
+
+    #[async_trait]
+    impl Task for Echo {
+        fn id(&self) -> &str {
+            "echo"
+        }
+
+        async fn run(&self, context: Context) -> Result<TaskResult> {
+            let message: String = context.get("message").unwrap_or_default();
+            Ok(TaskResult::new(Some(message), NextAction::Continue))
+        }
+    }
+
+    let store: Arc<dyn memory::MemoryStore> =
+        Arc::new(memory::InMemoryStore::new(WordCountEmbedder));
+    store.add("user likes concise answers".to_string()).await;
+
+    let task = memory::MemoryTask::new(
+        Echo,
+        store,
+        |_ctx: &Context| "user likes concise answers".to_string(),
+        memory::AlwaysAdd,
+    );
+
+    let context = Context::new();
+    context.set("message", "hello").unwrap();
+    task.run(context.clone()).await.unwrap();
+
+    let retrieved: Vec<String> = context.get(memory::RETRIEVED_KEY).unwrap();
+    assert_eq!(retrieved, vec!["user likes concise answers".to_string()]);
+}

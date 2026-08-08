@@ -21,17 +21,21 @@ checksum = "320119579fcad9c21884f5c4861d16174d0e06250625266f50fe6898340abefa"
 
 [[package]]
 name = "agentflow"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "actionguard",
  "async-trait",
+ "cacheflow",
  "evalflow",
  "graph-flow",
  "graphflow-stream",
  "guardflow",
+ "memoryflow",
+ "rollbackflow",
  "schemaflow",
  "serde_json",
  "tokio",
+ "traceflow",
 ]
 
 [[package]]
@@ -295,6 +299,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc652a48c352aef3ea3aed32080501cf3ef6ed5da78602a020c991775b0aff04"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "cacheflow"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b64ad864bce8aea17cb3a7f91e303566ea85d421b0714edc19adf46a86df6c7b"
+dependencies = [
+ "async-trait",
+ "graph-flow",
 ]
 
 [[package]]
@@ -978,9 +992,9 @@ dependencies = [
 
 [[package]]
 name = "graphflow-stream"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "92f8e1e75b5fb40ac92dbf59894db9595098fe88f3d17cb344a0a1c58d2bca45"
+checksum = "127af54c58702f576fdc2eb86af181567ec5c8b44f2f5d8ed44983b58e7f5ef7"
 dependencies = [
  "async-trait",
  "futures-core",
@@ -1532,6 +1546,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d1219ed1b7f229ee7104d281dd01d6802fe28bb6e95d292942c4daacdeb798c0"
 dependencies = [
  "libc",
+]
+
+[[package]]
+name = "memoryflow"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a55d31e4c7143a31f75b888e41ac78f72782a0a364ab33021c35a80db60c5908"
+dependencies = [
+ "async-trait",
+ "graph-flow",
 ]
 
 [[package]]
@@ -2788,6 +2812,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "rollbackflow"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "004a213e75561de6cdbde3c5943a500c73ef0ac642041de5dbce73e6ac38d63d"
+dependencies = [
+ "async-trait",
+ "graph-flow",
+ "serde_json",
+]
+
+[[package]]
 name = "rsa"
 version = "0.9.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3655,6 +3690,17 @@ name = "tower-service"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8df9b6e13f2d32c91b9bd719c00d1958837bc7dec474d94952798cc8e69eeec3"
+
+[[package]]
+name = "traceflow"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3933e81fae52d843f532f10b10d37d5b0ffd324753b77c9014e423a04a576822"
+dependencies = [
+ "async-trait",
+ "graph-flow",
+ "tokio",
+]
 
 [[package]]
 name = "tracing"
